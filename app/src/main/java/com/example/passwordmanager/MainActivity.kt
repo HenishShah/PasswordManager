@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -56,6 +57,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -198,12 +200,28 @@ fun PasswordList(
                 when (dataState) {
                     is DataState.Success -> {
                         //binding.loader.hide()
-                        LazyColumn {
-                            items(dataState.data.size) { password ->
-                                PasswordListItem(
-                                    passwordDetailsModel = dataState.data[password],
-                                    viewModel,
-                                    dao
+                        if (dataState.data.size > 0) {
+                            LazyColumn {
+                                items(dataState.data.size) { password ->
+                                    PasswordListItem(
+                                        passwordDetailsModel = dataState.data[password],
+                                        viewModel,
+                                        dao
+                                    )
+                                }
+                            }
+                        } else {
+                            Box (
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ){
+                                Text(
+                                    text = "No Data Found\nClick + to add data",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF333333),
+                                    textAlign = TextAlign.Center,
+                                    modifier = modifier.padding(horizontal = 10.dp, vertical = 20.dp)
                                 )
                             }
                         }
